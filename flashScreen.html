@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>闪屏解决方法</title>
+    <body>
+        <ul id="container"></ul>
+  
+    <script type="text/javascript">
+       let ul = document.getElementById("container");
+       let total = 10000;
+       let pageSize = 20;
+       let page =total/pageSize;//总页数
+       let index =0;//每条记录的索引
+       function loop(curTotal, curIndex) {
+           if(curTotal <= 0) {
+               return false
+           } 
+           let pageCount = Math.min(curTotal, pageSize);//取最小值，每页多少条
+        //    setTimeout(() => {
+        //        for (let i = 0;i < pageCount; i++) {
+        //            let li = document.createElement('li');
+        //            li.innerText = curIndex + i +":" +~~(Math.random()*total)
+        //            ul.appendChild(li)
+        //        }
+        //        loop(curTotal - pageCount,curIndex + pageCount)
+        //    },0)
+       /** DocumentFragment，文档片段接口，表示一个没有父级文件的最小文档对象。它被作为一个轻量版的Document使用，用于存储已排好版的或尚未打理好格式的XML片段。最大的区别是因为DocumentFragment不是真实DOM树的一部分，它的变化不会触发DOM树的（重新渲染) ，且不会导致性能等问题。
+可以使用document.createDocumentFragment方法或者构造函数来创建一个空的DocumentFragment*/
+
+            window.requestAnimationFrame(() => {
+                let fragment = document.createDocumentFragment();
+               for (let i = 0;i < pageCount; i++) {
+                   let li = document.createElement('li');
+                   li.innerText = curIndex + i +":" +~~(Math.random()*total)
+                   fragment.appendChild(li)
+               }
+               ul.appendChild(fragment)
+               loop(curTotal - pageCount,curIndex + pageCount)
+           })
+           
+       }
+       loop(total,index)
+
+    </script>
+   </body>
+</html>
